@@ -14,7 +14,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon as SearchIcon } from '@heroicons/react/24/outline'
 import { axiosWithAuth } from '../../utils/axios'
-import { useAuth } from '../../context/AuthContext'
+import { useAuth } from '@/context/AuthContext'
 
 export const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
@@ -228,7 +228,7 @@ export default function Dashboard() {
                     leaveTo="transform opacity-0 scale-95">
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-64 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <div className="px-4 py-2 border-b border-gray-200">
-                        <div className="text-gray-800">{user.name}</div>
+                        <div className="text-gray-800">{user?.name}</div>
                         <span className="text-sm font-normal text-gray-400">
                           Administrator
                         </span>

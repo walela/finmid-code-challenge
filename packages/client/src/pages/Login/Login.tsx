@@ -1,14 +1,14 @@
 import * as React from 'react'
-import axios, { axiosWithAuth } from '../../utils/axios'
-import sleep from '../../utils/sleep'
+import axios, { axiosWithAuth } from '@/utils/axios'
+import sleep from '@/utils/sleep'
 import toast, { Toaster } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 import { useAuth } from '../../context/AuthContext'
 import { IsAuthenticated } from '../../components/hoc/IsAuthenticated'
-import splash from '../../assets/splash.jpg'
-import logo from '../../assets/wallet.png'
+import splash from '@/assets/splash.jpg'
+import logo from '@/assets/wallet.png'
 
 type LoginData = {
   email: string
