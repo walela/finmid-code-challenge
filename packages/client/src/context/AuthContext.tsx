@@ -28,6 +28,11 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(userInfo)
   }
 
+  const removeUserInfo = (userInfo: Record<string, string>) => {
+    localStorage.removeItem('user')
+    setUser(null)
+  }
+
   const value = { user, setUserInfo, isAuthenticated: isAuthenticated() }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

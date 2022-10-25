@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import { getUserInfo } from '../context/AuthContext'
+import { getUserInfo } from '@/context/AuthContext'
 
 let config: Record<string, string> = {
   baseURL: 'http://localhost:3000/',
@@ -10,7 +10,7 @@ const axiosWithAuth = axios.create(config)
 
 axiosWithAuth.interceptors.request.use(
   function (config: AxiosRequestConfig) {
-    const token = getUserInfo().token
+    const token = getUserInfo()?.token
     config.headers = config.headers ?? {}
     if (token) {
       config.headers['Authorization'] = 'Bearer ' + token
@@ -22,13 +22,4 @@ axiosWithAuth.interceptors.request.use(
   }
 )
 
-// axiosInstance.interceptors.response.use(
-//   function (response) {
-//     return response.data
-//   },
-//   function (error) {
-//     return error
-//   }
-// )
-export default axiosInstance
-export { axiosWithAuth }
+export { axiosWithAuth, axiosInstance }

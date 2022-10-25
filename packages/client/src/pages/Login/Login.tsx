@@ -1,14 +1,17 @@
 import * as React from 'react'
-import axios, { axiosWithAuth } from '@/utils/axios'
-import sleep from '@/utils/sleep'
-import toast, { Toaster } from 'react-hot-toast'
+
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import toast, { Toaster } from 'react-hot-toast'
+import { axiosInstance as axios, sleep, axiosWithAuth } from '@/utils'
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
-import { useAuth } from '../../context/AuthContext'
-import { IsAuthenticated } from '../../components/hoc/IsAuthenticated'
+
+import { useAuth } from '@/context/AuthContext'
+import { IsAuthenticated } from '@/components/hoc/IsAuthenticated'
+
 import splash from '@/assets/splash.jpg'
 import logo from '@/assets/wallet.png'
+import { getSystemErrorName } from 'util'
 
 type LoginData = {
   email: string
@@ -31,11 +34,21 @@ function Login() {
     return response?.data
   }
 
+  async function getSMEName() {
+    const response = await axiosWithAuth.get('/sme-data')
+    return response.data.legalName
+  }
+
   async function getUserDetails(data: LoginData) {
     const token = await getUserToken(data)
     const { data: users } = await axiosWithAuth.get('/users')
     const loggedInUser = users.find((user: any) => user.email === data.email)
-    const updatedUserInfo = Object.assign(token, loggedInUser)
+    const smeName = await getSMEName()
+    const updatedUserInfo = Object.assign(
+      token,
+      { smeName: smeName },
+      loggedInUser
+    )
     return updatedUserInfo
   }
 

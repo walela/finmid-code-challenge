@@ -1,5 +1,6 @@
 import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
+import { useNavigate } from 'react-router-dom'
 import {
   BellIcon,
   ChartBarIcon,
@@ -13,7 +14,7 @@ import {
   XMarkIcon as XIcon,
 } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon as SearchIcon } from '@heroicons/react/24/outline'
-import { axiosWithAuth } from '../../utils/axios'
+import { axiosWithAuth } from '@/utils/axios'
 import { useAuth } from '@/context/AuthContext'
 
 export const navigation = [
@@ -25,29 +26,26 @@ export const navigation = [
   { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
   { name: 'Settings', href: '#', icon: Cog8ToothIcon, current: false },
 ]
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Dashboard() {
-  const [smeName, setSMEName] = useState('')
   const { user } = useAuth()
+  const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
-  async function getSME() {
-    const response = await axiosWithAuth.get('/sme-data')
-    setSMEName(response.data.legalName)
-  }
-
-  useEffect(() => {
-    getSME()
-  }, [])
-
+  const userNavigation = [
+    { name: 'Your Profile' },
+    {
+      name: 'Sign out',
+      handleClick: () => {
+        console.log('ding')
+        localStorage.removeItem('user')
+        navigate('/login')
+      },
+    },
+  ]
   return (
     <>
       <div>
@@ -98,7 +96,7 @@ export default function Dashboard() {
                 </Transition.Child>
                 <div className="flex-shrink-0 flex items-center px-4">
                   <h2 className="text-white text-2xl font-bold shadow">
-                    {smeName}
+                    {user.smeName}
                   </h2>
                 </div>
                 <div className="mt-5 flex-1 h-0 overflow-y-auto">
@@ -139,7 +137,7 @@ export default function Dashboard() {
           <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
             <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-800 border-b border-gray-500 shadow">
               <h2 className="text-white text-2xl font-bold shadow">
-                {smeName}
+                {user.smeName}
               </h2>
             </div>
             <div className="flex-1 flex flex-col overflow-y-auto">
@@ -237,10 +235,10 @@ export default function Dashboard() {
                         <Menu.Item key={item.name}>
                           {({ active }) => (
                             <a
-                              href={item.href}
+                              onClick={() => item?.handleClick()}
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-finmidpurple-light hover:text-finmidpurple-dark'
+                                'block px-4 py-2 cursor-pointer text-sm text-finmidpurple-light hover:text-finmidpurple-dark'
                               )}>
                               {item.name}
                             </a>

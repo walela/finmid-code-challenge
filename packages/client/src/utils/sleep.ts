@@ -4,4 +4,4 @@ function sleep(ms: number) {
   })
 }
 
-export default sleep
+export { sleep }
