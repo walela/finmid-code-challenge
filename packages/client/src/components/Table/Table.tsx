@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { axiosWithAuth } from '@/utils'
+import type { Transaction } from '../../../../lib-common/types/Transaction'
 import Dinero from 'dinero.js'
 import dayjs from 'dayjs'
-
 
 export default function TransactionsTable() {
   const [transactions, setTransactions] = React.useState([])
@@ -10,6 +10,12 @@ export default function TransactionsTable() {
   async function getUsers() {
     const response = await axiosWithAuth.get('/users')
     return response.data
+  }
+  const colorMap = {
+    PENDING: 'bg-orange-100 text-orange-800',
+    COMPLETED: 'bg-green-100 text-green-800',
+    REJECTED: 'bg-red-100 text-red-800',
+    REVERSED: 'bg-purple-100 text-purple-800',
   }
   React.useEffect(() => {
     async function doStuff() {
@@ -67,8 +73,10 @@ export default function TransactionsTable() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {transactions.map((transaction) => (
-                  <tr key={transaction.email} className="cursor-pointer hover:bg-gray-100">
+                {transactions.map((transaction: Transaction) => (
+                  <tr
+                    key={transaction.transactionTime}
+                    className="cursor-pointer hover:bg-gray-100">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="ml-4">
@@ -108,7 +116,8 @@ export default function TransactionsTable() {
                       }).toFormat('$0,0.00')}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                      <span
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded ${colorMap[transaction.status]} `}>
                         {transaction.status}
                       </span>
                     </td>
