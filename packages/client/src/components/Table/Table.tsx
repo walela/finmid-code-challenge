@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { axiosWithAuth } from '@/utils'
 import type { Transaction } from '../../../../lib-common/types/Transaction'
+import Pagination from '../Pagination'
 import Panel from '../Panel/Panel'
 import Dinero from 'dinero.js'
 import dayjs from 'dayjs'
@@ -23,7 +24,8 @@ export default function TransactionsTable() {
   React.useEffect(() => {
     async function doStuff() {
       users = await getUsers()
-      axiosWithAuth.get('/transactions').then((response) => {
+      axiosWithAuth.get('/transactions?limit=16').then((response) => {
+        console.log(response)
         const transactionsWithUserInfo = response.data.data.map((t) => {
           const user = users.find((user: any) => user.id === t.userId)
           return Object.assign(t, {
@@ -36,6 +38,15 @@ export default function TransactionsTable() {
       })
     }
     doStuff()
+  }, [])
+  const handleSpace = (e) => {
+    if (e.keyCode === 32) {
+      setOpenPanel(true)
+    }
+  }
+  React.useEffect(() => {
+    window.addEventListener('keydown', (e) => handleSpace(e), false)
+    return () => window.removeEventListener('keydown', handleSpace, false)
   }, [])
   return (
     <div className="flex flex-col">
@@ -79,7 +90,8 @@ export default function TransactionsTable() {
                 {transactions.map((transaction: Transaction) => (
                   <tr
                     key={transaction.transactionTime}
-                    className="cursor-pointer hover:bg-slate-50">
+                    className="cursor-pointer hover:bg-slate-50"
+                    onMouseEnter={() => setTransaction(transaction)}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="ml-4">
@@ -140,10 +152,15 @@ export default function TransactionsTable() {
                 ))}
               </tbody>
             </table>
+            <Pagination />
           </div>
         </div>
       </div>
-      <Panel open={openPanel} transaction={transaction} setOpen={setOpenPanel} />
+      <Panel
+        open={openPanel}
+        transaction={transaction}
+        setOpen={setOpenPanel}
+      />
     </div>
   )
 }

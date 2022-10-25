@@ -47,6 +47,7 @@ const getTransactions = async (req: Request, res: Response) => {
       status,
       userId,
       smeId,
+      total: data.length
     },
   });
 };

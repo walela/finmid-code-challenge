@@ -9,8 +9,6 @@ function classNames(...classes) {
 }
 
 export default function Panel({open, setOpen, transaction}: any) {
- 
-console.log('t', transaction)
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="fixed inset-0 overflow-hidden" onClose={setOpen}>
