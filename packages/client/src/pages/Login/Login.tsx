@@ -4,7 +4,7 @@ import logo from '../../assets/wallet.png'
 
 function Login() {
   return (
-    <React.Fragment>
+    <>
       <div className="min-h-full w-full h-screen flex">
         <div className="hidden lg:block relative w-0 flex-1">
           <img
@@ -79,7 +79,7 @@ function Login() {
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </>
   )
 }
 
