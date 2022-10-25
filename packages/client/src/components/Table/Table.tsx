@@ -1,11 +1,14 @@
 import * as React from 'react'
 import { axiosWithAuth } from '@/utils'
 import type { Transaction } from '../../../../lib-common/types/Transaction'
+import Panel from '../Panel/Panel'
 import Dinero from 'dinero.js'
 import dayjs from 'dayjs'
 
 export default function TransactionsTable() {
   const [transactions, setTransactions] = React.useState([])
+  const [openPanel, setOpenPanel] = React.useState(false)
+  const [transaction, setTransaction] = React.useState({})
   let users: any = []
   async function getUsers() {
     const response = await axiosWithAuth.get('/users')
@@ -76,7 +79,7 @@ export default function TransactionsTable() {
                 {transactions.map((transaction: Transaction) => (
                   <tr
                     key={transaction.transactionTime}
-                    className="cursor-pointer hover:bg-gray-100">
+                    className="cursor-pointer hover:bg-slate-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="ml-4">
@@ -117,13 +120,18 @@ export default function TransactionsTable() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded ${colorMap[transaction.status]} `}>
+                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded ${
+                          colorMap[transaction.status]
+                        } `}>
                         {transaction.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <a
-                        href="#"
+                        onClick={() => {
+                          setTransaction(transaction)
+                          setOpenPanel(!openPanel)
+                        }}
                         className="text-indigo-600 hover:text-indigo-900">
                         View
                       </a>
@@ -135,6 +143,7 @@ export default function TransactionsTable() {
           </div>
         </div>
       </div>
+      <Panel open={openPanel} transaction={transaction} setOpen={setOpenPanel} />
     </div>
   )
 }
