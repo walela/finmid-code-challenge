@@ -13,9 +13,9 @@ const login = async (req: Request, res: Response) => {
   const user = users.find((user) => user.email === email);
 
   if (!user) {
-    throw unauthorized(INCORRECT_LOGIN);
+    res.status(401).json(unauthorized(INCORRECT_LOGIN).output);
   } else if (!compareSync(password, user.password)) {
-    throw unauthorized(INCORRECT_LOGIN);
+    res.status(401).json(unauthorized(INCORRECT_LOGIN).output);
   } else {
     const { password, ...userData } = user;
     const token = jwt.sign({ userData }, SECRET_KEY, { expiresIn: '1y' });
