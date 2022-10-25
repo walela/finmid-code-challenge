@@ -1,6 +1,5 @@
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
-import { useNavigate } from 'react-router-dom'
 import {
   BellIcon,
   ChartBarIcon,
@@ -14,8 +13,8 @@ import {
   XMarkIcon as XIcon,
 } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon as SearchIcon } from '@heroicons/react/24/outline'
-import { axiosWithAuth } from '@/utils/axios'
 import { useAuth } from '@/context/AuthContext'
+import TransactionsTable from '@/components/Table/Table'
 
 export const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
@@ -33,7 +32,6 @@ function classNames(...classes: any) {
 
 export default function Dashboard() {
   const { user, removeUserInfo } = useAuth()
-  const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const userNavigation = [
     { name: 'Your Profile' },
@@ -93,7 +91,7 @@ export default function Dashboard() {
                   </div>
                 </Transition.Child>
                 <div className="flex-shrink-0 flex items-center px-4">
-                  <h2 className="text-white text-2xl font-bold shadow">
+                  <h2 className="text-white text-2xl font-logo font-bold shadow">
                     {user.smeName}
                   </h2>
                 </div>
@@ -105,7 +103,7 @@ export default function Dashboard() {
                         href={item.href}
                         className={classNames(
                           item.current
-                            ? 'bg-gray-900 text-white'
+                            ? 'bg-black text-white'
                             : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                         )}>
@@ -134,7 +132,7 @@ export default function Dashboard() {
         <div className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
           <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
             <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-800 border-b border-gray-500 shadow">
-              <h2 className="text-white text-2xl font-bold shadow">
+              <h2 className="text-white text-2xl font-bold font-logo">
                 {user.smeName}
               </h2>
             </div>
@@ -146,7 +144,7 @@ export default function Dashboard() {
                     href={item.href}
                     className={classNames(
                       item.current
-                        ? 'bg-gray-900 text-white'
+                        ? 'bg-black text-white'
                         : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                     )}>
@@ -196,16 +194,16 @@ export default function Dashboard() {
                 </form>
               </div>
               <div className="ml-4 flex items-center md:ml-6">
-                <button
+                {/* <button
                   type="button"
-                  className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-finmidpurple">
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                </button> */}
 
                 <Menu as="div" className="ml-3 relative">
                   <div>
-                    <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-finmidpurple">
                       <span className="sr-only">Open user menu</span>
                       <img
                         className="h-8 w-8  rounded-full"
@@ -233,7 +231,9 @@ export default function Dashboard() {
                         <Menu.Item key={item.name}>
                           {({ active }) => (
                             <a
-                              onClick={() => item?.handleClick()}
+                              onClick={() => {
+                                if (item?.handleClick) item.handleClick()
+                              }}
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
                                 'block px-4 py-2 cursor-pointer text-sm text-finmidpurple-light hover:text-finmidpurple-dark'
@@ -259,7 +259,7 @@ export default function Dashboard() {
               </div>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                 <div className="py-4">
-                  <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
+                  <TransactionsTable/>
                 </div>
               </div>
             </div>

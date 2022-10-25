@@ -4,6 +4,7 @@ type AuthContextProps = {
   user: Record<string, string>
   isAuthenticated: boolean
   setUserInfo: (userInfo: Record<string, string>) => void
+  removeUserInfo: () => void
 }
 
 const AuthContext = React.createContext<AuthContextProps | null>(null)
@@ -28,7 +29,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(userInfo)
   }
 
-  const removeUserInfo = (userInfo: Record<string, string>) => {
+  const removeUserInfo = () => {
     localStorage.removeItem('user')
     setUser(null)
   }

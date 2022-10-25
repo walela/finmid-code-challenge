@@ -11,7 +11,6 @@ import { IsAuthenticated } from '@/components/hoc/IsAuthenticated'
 
 import splash from '@/assets/splash.jpg'
 import logo from '@/assets/wallet.png'
-import { getSystemErrorName } from 'util'
 
 type LoginData = {
   email: string

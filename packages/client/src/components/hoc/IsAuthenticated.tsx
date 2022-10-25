@@ -1,12 +1,10 @@
-import { Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { useAuth } from '@/context/AuthContext'
 
-type Props = {
-  children: React.ReactNode
-}
-
-const IsAuthenticated: React.FC<Props> = ({ children }) => {
+const IsAuthenticated: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { isAuthenticated } = useAuth()
   if (isAuthenticated) {
     return <Navigate to="/" />

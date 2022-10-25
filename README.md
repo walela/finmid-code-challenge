@@ -8,11 +8,11 @@ The dashboard should not be accessible to the general public, and the user must 
 
 - **Must** use Typescript and React.
 - Authentication
-  - User must be able to login and logout
+  [x] User must be able to login and logout
   - If the token expires, user must be logged out
 - Create a simple dashboard
-  - Should not be accessed by unauthenticated users
-  - In the header of the dashboard, please display the legal name of the SME, the name of the user currently logged in, and allow them to logout
+  [x] Should not be accessed by unauthenticated users
+  [x] In the header of the dashboard, please display the legal name of the SME, the name of the user currently logged in, and allow them to logout
 - Display the transaction feed.
   - Display only current SME's transactions
   - Users should be able to filter by status of the transaction excepted `REVERSED`
