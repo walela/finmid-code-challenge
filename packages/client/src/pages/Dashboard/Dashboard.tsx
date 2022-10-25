@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
   BellIcon,
@@ -7,23 +7,26 @@ import {
   CreditCardIcon,
   HomeIcon,
   InboxIcon,
+  Cog8ToothIcon,
   Bars3Icon as MenuAlt2Icon,
   UsersIcon,
   XMarkIcon as XIcon,
 } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon as SearchIcon } from '@heroicons/react/24/outline'
+import { axiosWithAuth } from '../../utils/axios'
+import { useAuth } from '../../context/AuthContext'
 
-const navigation = [
+export const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
   { name: 'Team', href: '#', icon: UsersIcon, current: false },
   { name: 'Cards', href: '#', icon: CreditCardIcon, current: false },
   { name: 'Tax', href: '#', icon: BanknotesIcon, current: false },
   { name: 'Documents', href: '#', icon: InboxIcon, current: false },
   { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  { name: 'Settings', href: '#', icon: Cog8ToothIcon, current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
   { name: 'Sign out', href: '#' },
 ]
 
@@ -32,7 +35,18 @@ function classNames(...classes: any) {
 }
 
 export default function Dashboard() {
+  const [smeName, setSMEName] = useState('')
+  const { user } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  async function getSME() {
+    const response = await axiosWithAuth.get('/sme-data')
+    setSMEName(response.data.legalName)
+  }
+
+  useEffect(() => {
+    getSME()
+  }, [])
 
   return (
     <>
@@ -83,7 +97,9 @@ export default function Dashboard() {
                   </div>
                 </Transition.Child>
                 <div className="flex-shrink-0 flex items-center px-4">
-                  Fellowship GmbH
+                  <h2 className="text-white text-2xl font-bold shadow">
+                    {smeName}
+                  </h2>
                 </div>
                 <div className="mt-5 flex-1 h-0 overflow-y-auto">
                   <nav className="px-2 space-y-1">
@@ -123,7 +139,7 @@ export default function Dashboard() {
           <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
             <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-800 border-b border-gray-500 shadow">
               <h2 className="text-white text-2xl font-bold shadow">
-                Fellowship GmbH
+                {smeName}
               </h2>
             </div>
             <div className="flex-1 flex flex-col overflow-y-auto">
@@ -196,9 +212,9 @@ export default function Dashboard() {
                     <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
+                        className="h-8 w-8  rounded-full"
+                        src={user?.profileImage}
+                        alt="Profile Image"
                       />
                     </Menu.Button>
                   </div>
@@ -210,7 +226,13 @@ export default function Dashboard() {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95">
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-64 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div className="px-4 py-2 border-b border-gray-200">
+                        <div className="text-gray-800">{user.name}</div>
+                        <span className="text-sm font-normal text-gray-400">
+                          Administrator
+                        </span>
+                      </div>
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
                           {({ active }) => (
@@ -218,7 +240,7 @@ export default function Dashboard() {
                               href={item.href}
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700'
+                                'block px-4 py-2 text-sm text-finmidpurple-light hover:text-finmidpurple-dark'
                               )}>
                               {item.name}
                             </a>
@@ -236,7 +258,7 @@ export default function Dashboard() {
             <div className="py-6">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                 <h1 className="text-2xl font-semibold text-gray-900">
-                  Dashboard
+                  Your transactions
                 </h1>
               </div>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">

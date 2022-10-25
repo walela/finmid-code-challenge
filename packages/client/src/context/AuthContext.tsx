@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 type AuthContextProps = {
-  user: {}
+  user: Record<string, string>
   isAuthenticated: boolean
   setUserInfo: (userInfo: Record<string, string>) => void
 }
