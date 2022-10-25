@@ -4,7 +4,7 @@ import sleep from '../../utils/sleep'
 import toast, { Toaster } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { useAuth } from '../../context/AuthContext'
+import { useAuth, getUserInfo } from '../../context/AuthContext'
 import splash from '../../assets/splash.jpg'
 import logo from '../../assets/wallet.png'
 
@@ -23,8 +23,18 @@ function Login() {
     sleep(3000).then(() => {
       axios
         .post('/login', data)
-        .then((res) => {
-          console.log(res)
+        .then((res: any) => {
+          setUserInfo({ token: res?.token })
+        })
+        .then(() => {
+          axiosWithAuth.get('/users').then((res) => {
+            const loggedInUser = res.data.find(
+              (user: any) => user.email === data.email
+            )
+            let token = getUserInfo()
+            let updatedUserInfo = Object.assign(token, loggedInUser)
+            setUserInfo(updatedUserInfo)
+          })
         })
         .catch(({ response }) => {
           console.log(response)
