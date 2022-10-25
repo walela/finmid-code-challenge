@@ -4,6 +4,7 @@ import sleep from '../../utils/sleep'
 import toast, { Toaster } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 import { useAuth, getUserInfo } from '../../context/AuthContext'
 import splash from '../../assets/splash.jpg'
 import logo from '../../assets/wallet.png'
@@ -72,6 +73,12 @@ function Login() {
                       className="block text-sm font-medium text-gray-700">
                       Email
                     </label>
+                    {errors.email && (
+                      <div className="text-red-600 text-sm flex gap-1 items-center">
+                        <ExclamationTriangleIcon className="w-4 h-4" />
+                        {errors.email.message as any}
+                      </div>
+                    )}
                     <div className="mt-1">
                       <input
                         type="email"
@@ -93,6 +100,12 @@ function Login() {
                       className="block text-sm font-medium text-gray-700">
                       Password
                     </label>
+                    {errors.password && (
+                      <div className="text-red-600 text-sm flex gap-1 items-center">
+                        <ExclamationTriangleIcon className="w-4 h-4" />
+                        {errors.password.message as any}
+                      </div>
+                    )}
                     <div className="mt-1">
                       <input
                         type="password"
