@@ -48,7 +48,7 @@ function Login() {
         setUserInfo(userInfo)
         navigate('/dashboard')
       } else {
-        throw new Error('Incorrect login or password.')
+        throw new Error('User not found')
       }
     } catch (error: any) {
       toast.error(`${error.response.data.payload.message}. Please try again.`)
@@ -122,6 +122,7 @@ function Login() {
                     )}
                     <div className="mt-1">
                       <input
+                        id="password"
                         type="password"
                         autoComplete="current-password"
                         className="input-primary"
@@ -135,7 +136,6 @@ function Login() {
                     <div className="flex items-center">
                       <input
                         id="remember-me"
-                        name="remember-me"
                         type="checkbox"
                         className="h-4 w-4 text-finmidpurple focus:ring-finmindpurple-light border-gray-300 rounded"
                       />
