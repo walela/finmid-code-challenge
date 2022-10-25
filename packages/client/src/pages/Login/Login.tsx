@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid'
 import { useAuth } from '../../context/AuthContext'
+import { IsAuthenticated } from '../../components/hoc/IsAuthenticated'
 import splash from '../../assets/splash.jpg'
 import logo from '../../assets/wallet.png'
 
@@ -58,7 +59,7 @@ function Login() {
   }
 
   return (
-    <>
+    <IsAuthenticated>
       <Toaster position="top-right" />
       <div className="min-h-full w-full h-screen flex">
         <div className="hidden lg:block relative w-0 flex-1">
@@ -181,7 +182,7 @@ function Login() {
           </div>
         </div>
       </div>
-    </>
+    </IsAuthenticated>
   )
 }
 
