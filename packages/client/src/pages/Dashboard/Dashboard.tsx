@@ -32,7 +32,7 @@ function classNames(...classes: any) {
 }
 
 export default function Dashboard() {
-  const { user } = useAuth()
+  const { user, removeUserInfo } = useAuth()
   const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const userNavigation = [
@@ -40,9 +40,7 @@ export default function Dashboard() {
     {
       name: 'Sign out',
       handleClick: () => {
-        console.log('ding')
-        localStorage.removeItem('user')
-        navigate('/login')
+        removeUserInfo()
       },
     },
   ]

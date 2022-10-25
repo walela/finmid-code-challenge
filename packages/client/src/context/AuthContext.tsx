@@ -33,7 +33,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(null)
   }
 
-  const value = { user, setUserInfo, isAuthenticated: isAuthenticated() }
+  const value = { user, setUserInfo, removeUserInfo, isAuthenticated: isAuthenticated() }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
