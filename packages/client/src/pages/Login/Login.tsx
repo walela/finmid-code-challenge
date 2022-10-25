@@ -1,10 +1,40 @@
 import * as React from 'react'
+import axios, { axiosWithAuth } from '../../utils/axios'
+import sleep from '../../utils/sleep'
+import toast, { Toaster } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { useAuth } from '../../context/AuthContext'
 import splash from '../../assets/splash.jpg'
 import logo from '../../assets/wallet.png'
 
 function Login() {
+  const { setUserInfo } = useAuth()
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm()
+  const skedaddle = useNavigate()
+  const [loading, setLoading] = React.useState(false)
+
+  const handleLogin = (data: any) => {
+    setLoading(true)
+    sleep(3000).then(() => {
+      axios
+        .post('/login', data)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch(({ response }) => {
+          console.log(response)
+        })
+    })
+  }
+
   return (
     <>
+      <Toaster position="top-right" />
       <div className="min-h-full w-full h-screen flex">
         <div className="hidden lg:block relative w-0 flex-1">
           <img
@@ -23,7 +53,9 @@ function Login() {
             </div>
             <div className="mt-8">
               <div className="mt-6">
-                <form className="space-y-6">
+                <form
+                  className="space-y-6"
+                  onSubmit={handleSubmit(handleLogin)}>
                   <div>
                     <label
                       htmlFor="email"
@@ -35,6 +67,13 @@ function Login() {
                         type="email"
                         autoComplete="email"
                         className="input-primary"
+                        {...register('email', {
+                          required: 'Please enter an email address',
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: 'Please enter a valid email address',
+                          },
+                        })}
                       />
                     </div>
                   </div>
@@ -49,6 +88,9 @@ function Login() {
                         type="password"
                         autoComplete="current-password"
                         className="input-primary"
+                        {...register('password', {
+                          required: 'Please enter a password',
+                        })}
                       />
                     </div>
                   </div>
