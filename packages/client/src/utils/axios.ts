@@ -22,13 +22,13 @@ axiosWithAuth.interceptors.request.use(
   }
 )
 
-axiosInstance.interceptors.response.use(
-  function (response) {
-    return response.data
-  },
-  function (error) {
-    return error.response.data
-  }
-)
+// axiosInstance.interceptors.response.use(
+//   function (response) {
+//     return response.data
+//   },
+//   function (error) {
+//     return error
+//   }
+// )
 export default axiosInstance
 export { axiosWithAuth }
