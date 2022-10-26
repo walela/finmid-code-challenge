@@ -1,5 +1,4 @@
 export default function Pagination({
-  count,
   total,
   offset,
   limit,
