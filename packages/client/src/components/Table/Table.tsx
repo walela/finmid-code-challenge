@@ -7,7 +7,7 @@ import LoadingTable from './LoadingTable'
 import DataTable from './DataTable'
 import type { Transaction, User, TransactionWithUserInfo } from '@/constants'
 
-export default function TransactionsTable({ filterText, status }: any) {
+export default function TransactionsTable({ filterText, setFilterText, status }: any) {
   const [loading, setLoading] = React.useState<boolean>(false)
   const [transactions, setTransactions] = React.useState<Transaction[]>([])
   const [filteredTransactions, setFilteredTransactions] = React.useState<
@@ -57,6 +57,7 @@ export default function TransactionsTable({ filterText, status }: any) {
   }
   async function getTransactions() {
     setLoading(true)
+    setFilterText('')
     await sleep(1000)
     users = await getUsers()
     axiosWithAuth
@@ -87,17 +88,7 @@ export default function TransactionsTable({ filterText, status }: any) {
   React.useEffect(() => {
     filterTransactions()
   }, [filterText])
-  const handleSpace = (event: KeyboardEvent) => {
-    if (event.key === 'space') {
-      event.preventDefault()
-      setOpenPanel(true)
-    }
-  }
 
-  React.useEffect(() => {
-    window.addEventListener('keydown', (e) => handleSpace(e), false)
-    return () => window.removeEventListener('keydown', handleSpace, false)
-  }, [])
 
   return (
     <div className="flex flex-col">

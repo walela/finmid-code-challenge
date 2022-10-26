@@ -25,8 +25,7 @@ function DataTable({
         transactions.map((transaction: Transaction & Partial<User>) => (
           <tr
             key={transaction.transactionTime}
-            className="cursor-pointer hover:bg-slate-100"
-            onMouseEnter={() => setTransaction(transaction)}>
+            className="cursor-pointer hover:bg-slate-100">
             <td className="px-6 py-4 whitespace-nowrap">
               <div className="flex items-center">
                 <div className="ml-4">

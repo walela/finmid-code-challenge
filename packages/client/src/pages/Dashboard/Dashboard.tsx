@@ -261,7 +261,7 @@ export default function Dashboard() {
               <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                 <Filter selectedStatus={status} setStatus={setStatus} />
                 <div className="py-4">
-                  <TransactionsTable filterText={searchText} status={status} />
+                  <TransactionsTable filterText={searchText} setFilterText={setSearchText} status={status} />
                 </div>
               </div>
             </div>
