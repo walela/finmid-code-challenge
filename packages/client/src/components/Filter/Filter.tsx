@@ -11,13 +11,13 @@ const statusOptions = [
   { name: 'Reversed', value: 'REVERSED' },
 ]
 
-function Filter({ selectedStatus, setStatus }: any) {
+function Filter({ setStatus }: any) {
   const [selected, setSelected] = React.useState('')
   return (
     <div className="w-full bg-gray-100 border-t border-b border-gray-100  flex  py-2 my-2">
       <Menu as="div" className="relative inline-block text-left">
         <Menu.Button className="bg-white hover:bg-gray-100 px-4 shadow rounded-full text-gray-500 font-semibold text-sm border border-gray-400 py-1">
-          Filter -> {' '}
+          Status -&gt; {' '}
           <span className="text-indigo-500 text-sm font-medium">
             {statusOptions.find((status) => status.value === selected)?.name}
           </span>

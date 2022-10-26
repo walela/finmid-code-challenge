@@ -1,7 +1,8 @@
 import * as React from 'react'
+import type { User } from '@/constants'
 
 type AuthContextProps = {
-  user: Record<string, string>
+  user: User
   isAuthenticated: boolean
   setUserInfo: (userInfo: Record<string, string>) => void
   removeUserInfo: () => void
@@ -34,7 +35,12 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(null)
   }
 
-  const value = { user, setUserInfo, removeUserInfo, isAuthenticated: isAuthenticated() }
+  const value = {
+    user,
+    setUserInfo,
+    removeUserInfo,
+    isAuthenticated: isAuthenticated(),
+  }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

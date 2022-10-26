@@ -1,7 +1,6 @@
-import { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
-  BellIcon,
   ChartBarIcon,
   BanknotesIcon,
   CreditCardIcon,
@@ -47,12 +46,12 @@ export default function Dashboard() {
     },
   ]
 
-  const handleSearchText = (e) => {
+  const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value)
   }
 
   return (
-    <>
+    <Fragment>
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -272,6 +271,6 @@ export default function Dashboard() {
           </main>
         </div>
       </div>
-    </>
+    </Fragment>
   )
 }

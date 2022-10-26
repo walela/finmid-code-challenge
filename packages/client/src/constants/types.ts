@@ -1,5 +1,14 @@
 export type Values<T> = T[keyof T]
 
+export type User = {
+  id: string
+  smeId: string
+  smeName?: string
+  name: string
+  email: string
+  profileImage: string
+  password: string
+}
 export type Transaction = {
   id: string
   userId: string
