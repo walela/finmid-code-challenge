@@ -6,8 +6,9 @@ import { colorMap, type Transaction } from '@/constants'
 import Pagination from '../Pagination'
 import Panel from '../Panel'
 
-export default function TransactionsTable() {
+export default function TransactionsTable({ filterText }: any) {
   const [transactions, setTransactions] = React.useState([])
+  const [filteredTransactions, setFilteredTransactions] = React.useState([])
   const [openPanel, setOpenPanel] = React.useState(false)
   const [transaction, setTransaction] = React.useState({})
   let users: any = []
@@ -28,11 +29,17 @@ export default function TransactionsTable() {
             profileImage: user.profileImage,
           })
         })
-        setTransactions(transactionsWithUserInfo)
+        setFilteredTransactions(
+          transactionsWithUserInfo.filter((transaction: any) =>
+            transaction.merchantName
+              .toLowerCase()
+              .includes(filterText.toLowerCase())
+          )
+        )
       })
     }
     doStuff()
-  }, [])
+  }, [filterText])
   const handleSpace = (e) => {
     if (e.keyCode === 32) {
       e.preventDefault()
@@ -82,7 +89,7 @@ export default function TransactionsTable() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {transactions.map((transaction: Transaction) => (
+                {filteredTransactions.map((transaction: Transaction) => (
                   <tr
                     key={transaction.transactionTime}
                     className="cursor-pointer hover:bg-slate-100"

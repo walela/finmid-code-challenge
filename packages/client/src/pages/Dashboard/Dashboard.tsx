@@ -33,6 +33,8 @@ function classNames(...classes: any) {
 export default function Dashboard() {
   const { user, removeUserInfo } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [searchText, setSearchText] = useState('')
+
   const userNavigation = [
     { name: 'Your Profile' },
     {
@@ -42,6 +44,12 @@ export default function Dashboard() {
       },
     },
   ]
+
+  const handleSearchText = (e) => {
+    setSearchText(e.target.value)
+  }
+
+
   return (
     <>
       <div>
@@ -189,6 +197,8 @@ export default function Dashboard() {
                       placeholder="Search by merchant name"
                       type="search"
                       name="search"
+                      value={searchText}
+                      onChange = {handleSearchText}
                     />
                   </div>
                 </form>
@@ -259,7 +269,7 @@ export default function Dashboard() {
               </div>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                 <div className="py-4">
-                  <TransactionsTable filterText={}/>
+                  <TransactionsTable filterText={searchText}/>
                 </div>
               </div>
             </div>
