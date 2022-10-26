@@ -11,6 +11,8 @@ export default function TransactionsTable({ filterText }: any) {
   const [filteredTransactions, setFilteredTransactions] = React.useState([])
   const [openPanel, setOpenPanel] = React.useState(false)
   const [transaction, setTransaction] = React.useState({})
+  const limit = 16
+  const [offset, setOffset] = React.useState(0)
   let users: any = []
   async function getUsers() {
     const response = await axiosWithAuth.get('/users')
@@ -20,26 +22,30 @@ export default function TransactionsTable({ filterText }: any) {
   React.useEffect(() => {
     async function doStuff() {
       users = await getUsers()
-      axiosWithAuth.get('/transactions?limit=16').then((response) => {
-        const transactionsWithUserInfo = response.data.data.map((t) => {
-          const user = users.find((user: any) => user.id === t.userId)
-          return Object.assign(t, {
-            name: user.name,
-            email: user.email,
-            profileImage: user.profileImage,
-          })
+      axiosWithAuth
+        .get('/transactions', {
+          params: { limit: limit, offset: offset },
         })
-        setFilteredTransactions(
-          transactionsWithUserInfo.filter((transaction: any) =>
-            transaction.merchantName
-              .toLowerCase()
-              .includes(filterText.toLowerCase())
+        .then((response) => {
+          const transactionsWithUserInfo = response.data.data.map((t) => {
+            const user = users.find((user: any) => user.id === t.userId)
+            return Object.assign(t, {
+              name: user.name,
+              email: user.email,
+              profileImage: user.profileImage,
+            })
+          })
+          setFilteredTransactions(
+            transactionsWithUserInfo.filter((transaction: any) =>
+              transaction.merchantName
+                .toLowerCase()
+                .includes(filterText.toLowerCase())
+            )
           )
-        )
-      })
+        })
     }
     doStuff()
-  }, [filterText])
+  }, [filterText, offset])
   const handleSpace = (e) => {
     if (e.keyCode === 32) {
       e.preventDefault()
@@ -154,7 +160,7 @@ export default function TransactionsTable({ filterText }: any) {
                 ))}
               </tbody>
             </table>
-            <Pagination count={transactions.length} />
+            <Pagination count={filteredTransactions.length} getPrevious={() => setOffset(offset-limit)} getNext={() => setOffset(offset+limit)} />
           </div>
         </div>
       </div>
