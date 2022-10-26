@@ -11,12 +11,27 @@ export default function TransactionsTable({ filterText }: any) {
   const [filteredTransactions, setFilteredTransactions] = React.useState([])
   const [openPanel, setOpenPanel] = React.useState(false)
   const [transaction, setTransaction] = React.useState({})
+  const [total, setTotal] = React.useState(0)
   const limit = 16
   const [offset, setOffset] = React.useState(0)
   let users: any = []
   async function getUsers() {
     const response = await axiosWithAuth.get('/users')
     return response.data
+  }
+
+  const getPrevious = () => {
+    if (offset > 0) {
+      setOffset(offset - limit)
+    }
+  
+  }
+
+  const getNext = () => {
+    if ((offset + limit) < total) {
+      setOffset(offset + limit)
+    }
+   
   }
 
   React.useEffect(() => {
@@ -42,6 +57,7 @@ export default function TransactionsTable({ filterText }: any) {
                 .includes(filterText.toLowerCase())
             )
           )
+          setTotal(response.data.meta.total)
         })
     }
     doStuff()
@@ -160,7 +176,14 @@ export default function TransactionsTable({ filterText }: any) {
                 ))}
               </tbody>
             </table>
-            <Pagination count={filteredTransactions.length} getPrevious={() => setOffset(offset-limit)} getNext={() => setOffset(offset+limit)} />
+            <Pagination
+              count={filteredTransactions.length}
+              offset={offset}
+              limit={limit}
+              total={total}
+              getPrevious={getPrevious}
+              getNext={getNext}
+            />
           </div>
         </div>
       </div>
