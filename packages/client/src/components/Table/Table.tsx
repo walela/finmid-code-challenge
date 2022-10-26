@@ -21,7 +21,6 @@ export default function TransactionsTable({ filterText, status }: any) {
     const response = await axiosWithAuth.get('/users')
     return response.data
   }
-  console.log(status)
 
   const getPrevious = () => {
     if (offset > 0) {

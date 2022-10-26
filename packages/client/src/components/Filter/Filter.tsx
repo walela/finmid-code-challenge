@@ -44,7 +44,7 @@ function Filter({ selectedStatus, setStatus }: any) {
                     type="radio"
                     value={status.value}
                     defaultChecked={status.value === selected}
-                    onChange={() => setStatus(status.value)}
+                    onChange={() => setSelected(status.value)}
                     className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
                   />
                   <label
@@ -54,7 +54,7 @@ function Filter({ selectedStatus, setStatus }: any) {
                   </label>
                 </div>
               ))}
-              <button className="px-4 bg-finmidpurple text-white py-1 hover:bg-finmidpurple-light rounded shadow">
+              <button onClick={() => setStatus(selected)} className="px-4 bg-finmidpurple text-white py-1 hover:bg-finmidpurple-light rounded shadow">
                 Apply
               </button>
             </div>
