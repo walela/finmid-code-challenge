@@ -15,7 +15,7 @@ export default function Pagination({
           <span className="font-medium">
             {offset + limit >= total ? total : offset + limit}
           </span>{' '}
-          of <span className="font-medium">{total}</span> results
+          of <span className="font-medium">{total}</span> transactions
         </p>
       </div>
       <div className="flex-1 flex justify-between sm:justify-end">

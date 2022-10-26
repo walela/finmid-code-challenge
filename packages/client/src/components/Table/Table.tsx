@@ -4,16 +4,16 @@ import dayjs from 'dayjs'
 import { axiosWithAuth } from '@/utils'
 import { colorMap, type Transaction } from '@/constants'
 import Pagination from '../Pagination'
-import { FaceFrownIcon } from '@heroicons/react/24/solid'
 import EmptyTable from './EmptyTable'
 import Panel from '../Panel'
+
 
 export default function TransactionsTable({ filterText }: any) {
   const [filteredTransactions, setFilteredTransactions] = React.useState([])
   const [openPanel, setOpenPanel] = React.useState(false)
   const [transaction, setTransaction] = React.useState({})
   const [total, setTotal] = React.useState(0)
-  const limit = 16
+  const limit = 10
   const [offset, setOffset] = React.useState(0)
   let users: any = []
   async function getUsers() {

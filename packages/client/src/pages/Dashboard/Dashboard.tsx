@@ -15,6 +15,7 @@ import {
 import { MagnifyingGlassIcon as SearchIcon } from '@heroicons/react/24/outline'
 import { useAuth } from '@/context/AuthContext'
 import TransactionsTable from '@/components/Table/Table'
+import Filter from '@/components/Filter'
 
 export const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
@@ -48,7 +49,6 @@ export default function Dashboard() {
   const handleSearchText = (e) => {
     setSearchText(e.target.value)
   }
-
 
   return (
     <>
@@ -185,7 +185,7 @@ export default function Dashboard() {
               <div className="flex-1 flex">
                 <form className="w-full flex md:ml-0" action="#" method="GET">
                   <label htmlFor="search-field" className="sr-only">
-                    Search 
+                    Search
                   </label>
                   <div className="relative w-full text-gray-400 focus-within:text-gray-600">
                     <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none">
@@ -198,19 +198,12 @@ export default function Dashboard() {
                       type="search"
                       name="search"
                       value={searchText}
-                      onChange = {handleSearchText}
+                      onChange={handleSearchText}
                     />
                   </div>
                 </form>
               </div>
               <div className="ml-4 flex items-center md:ml-6">
-                {/* <button
-                  type="button"
-                  className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-finmidpurple">
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button> */}
-
                 <Menu as="div" className="ml-3 relative">
                   <div>
                     <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-finmidpurple">
@@ -267,9 +260,11 @@ export default function Dashboard() {
                   Your transactions
                 </h1>
               </div>
+
               <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                <Filter />
                 <div className="py-4">
-                  <TransactionsTable filterText={searchText}/>
+                  <TransactionsTable filterText={searchText} />
                 </div>
               </div>
             </div>
