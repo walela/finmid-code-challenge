@@ -5,20 +5,24 @@ import Pagination from '../Pagination'
 import Panel from '../Panel'
 import LoadingTable from './LoadingTable'
 import DataTable from './DataTable'
-import type { Transaction, User } from '@/constants'
+import type { Transaction, User, TransactionWithUserInfo } from '@/constants'
 
 export default function TransactionsTable({ filterText, status }: any) {
-  const [loading, setLoading] = React.useState(false)
-  const [transactions, setTransactions] = React.useState([])
-  const [filteredTransactions, setFilteredTransactions] = React.useState([])
-  const [total, setTotal] = React.useState(0)
-  const [openPanel, setOpenPanel] = React.useState(false)
-  const [transaction, setTransaction] = React.useState({})
-  const [offset, setOffset] = React.useState(0)
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const [transactions, setTransactions] = React.useState<Transaction[]>([])
+  const [filteredTransactions, setFilteredTransactions] = React.useState<
+    Transaction[]
+  >([])
+  const [total, setTotal] = React.useState<number>(0)
+  const [openPanel, setOpenPanel] = React.useState<boolean>(false)
+  const [transaction, setTransaction] = React.useState(
+    {} as TransactionWithUserInfo
+  )
+  const [offset, setOffset] = React.useState<number>(0)
 
   const limit = 10
 
-  let users: any = []
+  let users: User[] = []
   async function getUsers() {
     const response = await axiosWithAuth.get('/users')
     return response.data
@@ -44,7 +48,7 @@ export default function TransactionsTable({ filterText, status }: any) {
   }
   function filterTransactions() {
     setFilteredTransactions(
-      transactions.filter((transaction: any) =>
+      transactions.filter((transaction: Transaction) =>
         transaction.merchantName
           .toLowerCase()
           .includes(filterText.toLowerCase())
@@ -60,14 +64,16 @@ export default function TransactionsTable({ filterText, status }: any) {
         params: setParams(),
       })
       .then((response) => {
-        const transactionsWithUserInfo = response.data.data.map((t: Transaction) => {
-          const user = users.find((user: User) => user.id === t.userId)
-          return Object.assign(t, {
-            name: user.name,
-            email: user.email,
-            profileImage: user.profileImage,
-          })
-        })
+        const transactionsWithUserInfo = response.data.data.map(
+          (t: Transaction) => {
+            const user = users.find((user: User) => user.id === t.userId)
+            return Object.assign(t, {
+              name: user?.name,
+              email: user?.email,
+              profileImage: user?.profileImage,
+            })
+          }
+        )
         setTransactions(transactionsWithUserInfo)
         setFilteredTransactions(transactionsWithUserInfo)
         setTotal(response.data.meta.total)
@@ -137,7 +143,6 @@ export default function TransactionsTable({ filterText, status }: any) {
             </table>
             {filteredTransactions.length > 0 && (
               <Pagination
-                count={filteredTransactions.length}
                 offset={offset}
                 limit={limit}
                 total={total}
@@ -152,7 +157,6 @@ export default function TransactionsTable({ filterText, status }: any) {
         open={openPanel}
         transaction={transaction}
         setOpen={setOpenPanel}
-        closePanel={() => setOpenPanel(false)}
       />
     </div>
   )

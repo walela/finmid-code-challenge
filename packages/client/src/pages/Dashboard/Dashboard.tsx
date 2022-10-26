@@ -15,6 +15,7 @@ import { MagnifyingGlassIcon as SearchIcon } from '@heroicons/react/24/outline'
 import { useAuth } from '@/context/AuthContext'
 import TransactionsTable from '@/components/Table/Table'
 import Filter from '@/components/Filter'
+import { classNames } from '@/utils'
 
 export const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
@@ -25,10 +26,6 @@ export const navigation = [
   { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
   { name: 'Settings', href: '#', icon: Cog8ToothIcon, current: false },
 ]
-
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function Dashboard() {
   const { user, removeUserInfo } = useAuth()

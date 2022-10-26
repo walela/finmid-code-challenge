@@ -1,3 +1,4 @@
+// Empty table for when there's no transactions
 import { FaceFrownIcon } from '@heroicons/react/24/solid'
 
 function EmptyTable() {

@@ -1,21 +1,18 @@
-/* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useEffect } from 'react'
+import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon as XIcon } from '@heroicons/react/24/outline'
 import dayjs from 'dayjs'
 import Dinero from 'dinero.js'
+import { COLORMAP as colorMap } from '@/constants'
+import type { Transaction, User } from '@/constants'
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+type PanelProps = {
+  open: boolean
+  setOpen: (value: boolean) => void
+  transaction: Transaction & Partial<User>
 }
 
-export default function Panel({ open, setOpen, closePanel, transaction }: any) {
-  const colorMap = {
-    PENDING: 'bg-orange-100 text-orange-800',
-    COMPLETED: 'bg-green-100 text-green-800',
-    REJECTED: 'bg-red-100 text-red-800',
-    REVERSED: 'bg-purple-100 text-purple-800',
-  }
+export default function Panel({ open, setOpen, transaction }: PanelProps) {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog

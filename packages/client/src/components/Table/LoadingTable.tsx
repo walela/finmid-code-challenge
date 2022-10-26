@@ -1,5 +1,4 @@
-import { FaceFrownIcon } from '@heroicons/react/24/solid'
-
+// Table with spinner for loading states
 function LoadingTable() {
   return (
     <tr className="h-36  w-full">

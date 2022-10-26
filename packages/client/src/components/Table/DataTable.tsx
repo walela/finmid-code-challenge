@@ -4,12 +4,19 @@ import Dinero from 'dinero.js'
 import dayjs from 'dayjs'
 import { COLORMAP as colorMap, User, type Transaction } from '@/constants'
 
+type DataTableProps = {
+  transactions: Transaction[]
+  setTransaction: (t: Transaction) => void
+  openPanel: boolean
+  setOpenPanel: (o: boolean) => void
+}
+
 function DataTable({
   transactions,
   setTransaction,
   openPanel,
   setOpenPanel,
-}: any) {
+}: DataTableProps) {
   return (
     <React.Fragment>
       {!transactions.length ? (

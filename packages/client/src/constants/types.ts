@@ -22,6 +22,8 @@ export type Transaction = {
   rejectionReason: RejectionReason | null
 }
 
+export type TransactionWithUserInfo = Transaction & Partial<User>
+
 export const TransactionStatusEnum = {
   Rejected: 'REJECTED',
   Pending: 'PENDING',
