@@ -14,15 +14,15 @@ The dashboard should not be accessible to the general public, and the user must 
   [x] Should not be accessed by unauthenticated users
   [x] In the header of the dashboard, please display the legal name of the SME, the name of the user currently logged in, and allow them to logout
 - Display the transaction feed.
-  - Display only current SME's transactions
+  [x] Display only current SME's transactions
   - Users should be able to filter by status of the transaction excepted `REVERSED`
-  - Each transaction item must display:
+  [x] Each transaction item must display:
     - Merchant name
     - Merchant icon
     - Formatted date (`dd.mm.yyyy` format, so something like `16.03.2021`)
     - Formatted value with the correct currency
-  - Clicking the transaction should open more details about it in a sidebar
-    - Here we should have the full timestamp, the status again, and the name of the user responsible
+  [x] Clicking the transaction should open more details about it in a sidebar
+    [x] Here we should have the full timestamp, the status again, and the name of the user responsible
 - When making requests to the API make sure to have the proper query states setup - show loading states when appropriate
 
 ## Evaluation

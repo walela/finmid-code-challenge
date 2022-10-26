@@ -41,6 +41,7 @@ export default function TransactionsTable() {
   }, [])
   const handleSpace = (e) => {
     if (e.keyCode === 32) {
+      e.preventDefault()
       setOpenPanel(true)
     }
   }
@@ -90,7 +91,7 @@ export default function TransactionsTable() {
                 {transactions.map((transaction: Transaction) => (
                   <tr
                     key={transaction.transactionTime}
-                    className="cursor-pointer hover:bg-slate-50"
+                    className="cursor-pointer hover:bg-slate-100"
                     onMouseEnter={() => setTransaction(transaction)}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -126,7 +127,7 @@ export default function TransactionsTable() {
 
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {Dinero({
-                        amount: parseInt(parseFloat(transaction?.amount)) * 100,
+                        amount: parseInt(transaction.amount) * 100,
                         currency: transaction.currency,
                       }).toFormat('$0,0.00')}
                     </td>
@@ -152,7 +153,7 @@ export default function TransactionsTable() {
                 ))}
               </tbody>
             </table>
-            <Pagination />
+            <Pagination count={transactions.length} />
           </div>
         </div>
       </div>
