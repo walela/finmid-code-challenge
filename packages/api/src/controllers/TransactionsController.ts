@@ -31,6 +31,7 @@ const getTransactions = async (req: Request, res: Response) => {
     query: { status, userId, limit, offset },
   } = validateRequest(transactionQueryValidation, req);
 
+  const total = data.filter(t => t.smeId === smeId).length
   const transactions = new TransactionService(data as Transaction[])
     .setLimit(limit)
     .setSmeId(smeId)
@@ -42,12 +43,12 @@ const getTransactions = async (req: Request, res: Response) => {
   res.status(200).json({
     data: transactions,
     meta: {
+      total,
       limit,
       offset,
       status,
       userId,
       smeId,
-      total: data.length
     },
   });
 };
