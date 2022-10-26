@@ -8,7 +8,7 @@ const statusOptions = [
     value: 'PENDING',
   },
   { name: 'Completed', value: 'COMPLETED' },
-  { name: 'Reversed', value: 'REVERSED' },
+  { name: 'Rejected', value: 'REJECTED' },
 ]
 
 function Filter({ setStatus }: any) {
