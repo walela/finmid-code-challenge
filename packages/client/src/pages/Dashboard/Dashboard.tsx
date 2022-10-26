@@ -35,6 +35,7 @@ export default function Dashboard() {
   const { user, removeUserInfo } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchText, setSearchText] = useState('')
+  const [status, setStatus] = useState('')
 
   const userNavigation = [
     { name: 'Your Profile' },
@@ -262,9 +263,9 @@ export default function Dashboard() {
               </div>
 
               <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <Filter />
+                <Filter selectedStatus={status} setStatus={setStatus} />
                 <div className="py-4">
-                  <TransactionsTable filterText={searchText} />
+                  <TransactionsTable filterText={searchText} status={status} />
                 </div>
               </div>
             </div>

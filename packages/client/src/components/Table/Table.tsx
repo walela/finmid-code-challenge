@@ -8,11 +8,12 @@ import EmptyTable from './EmptyTable'
 import Panel from '../Panel'
 
 
-export default function TransactionsTable({ filterText }: any) {
+export default function TransactionsTable({ filterText, status }: any) {
   const [filteredTransactions, setFilteredTransactions] = React.useState([])
   const [openPanel, setOpenPanel] = React.useState(false)
   const [transaction, setTransaction] = React.useState({})
   const [total, setTotal] = React.useState(0)
+  
   const limit = 10
   const [offset, setOffset] = React.useState(0)
   let users: any = []
@@ -20,6 +21,7 @@ export default function TransactionsTable({ filterText }: any) {
     const response = await axiosWithAuth.get('/users')
     return response.data
   }
+  console.log(status)
 
   const getPrevious = () => {
     if (offset > 0) {
@@ -32,13 +34,20 @@ export default function TransactionsTable({ filterText }: any) {
       setOffset(offset + limit)
     }
   }
+  const setParams = () => {
+    if (status) {
+      return  { limit, offset, status }
+    } else {
+      return  { limit, offset }
+    }
+  }
 
   React.useEffect(() => {
     async function doStuff() {
       users = await getUsers()
       axiosWithAuth
         .get('/transactions', {
-          params: { limit: limit, offset: offset },
+          params: setParams(),
         })
         .then((response) => {
           const transactionsWithUserInfo = response.data.data.map((t) => {
@@ -60,7 +69,7 @@ export default function TransactionsTable({ filterText }: any) {
         })
     }
     doStuff()
-  }, [filterText, offset])
+  }, [filterText, status, offset])
   const handleSpace = (e) => {
     if (e.keyCode === 32) {
       e.preventDefault()
