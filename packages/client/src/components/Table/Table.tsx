@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { axiosWithAuth } from '@/utils'
-import type { Transaction } from '../../../../lib-common/types/Transaction'
-import Pagination from '../Pagination'
-import Panel from '../Panel/Panel'
 import Dinero from 'dinero.js'
 import dayjs from 'dayjs'
+import { axiosWithAuth } from '@/utils'
+import { colorMap, type Transaction } from '@/constants'
+import Pagination from '../Pagination'
+import Panel from '../Panel'
 
 export default function TransactionsTable() {
   const [transactions, setTransactions] = React.useState([])
@@ -15,17 +15,11 @@ export default function TransactionsTable() {
     const response = await axiosWithAuth.get('/users')
     return response.data
   }
-  const colorMap = {
-    PENDING: 'bg-orange-100 text-orange-800',
-    COMPLETED: 'bg-green-100 text-green-800',
-    REJECTED: 'bg-red-100 text-red-800',
-    REVERSED: 'bg-purple-100 text-purple-800',
-  }
+
   React.useEffect(() => {
     async function doStuff() {
       users = await getUsers()
       axiosWithAuth.get('/transactions?limit=16').then((response) => {
-        console.log(response)
         const transactionsWithUserInfo = response.data.data.map((t) => {
           const user = users.find((user: any) => user.id === t.userId)
           return Object.assign(t, {
@@ -161,6 +155,7 @@ export default function TransactionsTable() {
         open={openPanel}
         transaction={transaction}
         setOpen={setOpenPanel}
+        closePanel={() => setOpenPanel(false)}
       />
     </div>
   )

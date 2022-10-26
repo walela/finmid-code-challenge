@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from 'react'
-import { Dialog, Menu, Transition } from '@headlessui/react'
+import { Fragment, useEffect } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon as XIcon } from '@heroicons/react/24/outline'
 import dayjs from 'dayjs'
 import Dinero from 'dinero.js'
@@ -9,8 +9,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Panel({ open, setOpen, transaction }: any) {
-  console.log(transaction)
+export default function Panel({ open, setOpen, closePanel, transaction }: any) {
   const colorMap = {
     PENDING: 'bg-orange-100 text-orange-800',
     COMPLETED: 'bg-green-100 text-green-800',
@@ -36,7 +35,7 @@ export default function Panel({ open, setOpen, transaction }: any) {
               leaveFrom="translate-x-0"
               leaveTo="translate-x-full">
               <div className="w-screen max-w-md">
-                <div className="h-full mt-16 flex flex-col bg-white shadow-md overflow-y-scroll">
+                <div className="h-full mt-16 flex flex-col bg-neutral-50 shadow-md overflow-y-scroll">
                   <div className="px-4 py-6 sm:px-6">
                     <div className="flex items-start justify-between">
                       <h2
@@ -47,7 +46,7 @@ export default function Panel({ open, setOpen, transaction }: any) {
                       <div className="ml-3 h-7 flex items-center">
                         <button
                           type="button"
-                          className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500"
+                          className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-finmidpurple"
                           onClick={() => setOpen(false)}>
                           <span className="sr-only">Close panel</span>
                           <XIcon className="h-6 w-6" aria-hidden="true" />
@@ -73,9 +72,6 @@ export default function Panel({ open, setOpen, transaction }: any) {
                                 <h3 className="font-bold text-xl text-gray-900 sm:text-2xl">
                                   {transaction.name}
                                 </h3>
-                                <span className="ml-2.5 bg-green-400 flex-shrink-0 inline-block h-2 w-2 rounded-full">
-                                  <span className="sr-only">Online</span>
-                                </span>
                               </div>
                               <p className="text-sm text-gray-500">
                                 {transaction.email}
