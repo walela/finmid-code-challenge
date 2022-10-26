@@ -1,8 +1,8 @@
 import * as React from 'react'
 import EmptyTable from './EmptyTable'
-import Dinero from 'dinero.js'
 import dayjs from 'dayjs'
 import { COLORMAP as colorMap, User, type Transaction } from '@/constants'
+import { formatCurrency } from '@/utils/currencyFormatter'
 
 type DataTableProps = {
   transactions: Transaction[]
@@ -59,10 +59,7 @@ function DataTable({
             </td>
 
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {Dinero({
-                amount: parseInt(transaction.amount) * 100,
-                currency: transaction.currency,
-              }).toFormat('$0,0.00')}
+              {formatCurrency(transaction.amount, transaction.currency)}
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
               <span

@@ -2,9 +2,9 @@ import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon as XIcon } from '@heroicons/react/24/outline'
 import dayjs from 'dayjs'
-import Dinero from 'dinero.js'
 import { COLORMAP as colorMap } from '@/constants'
 import type { Transaction, User } from '@/constants'
+import { formatCurrency } from '@/utils/currencyFormatter'
 
 type PanelProps = {
   open: boolean
@@ -110,10 +110,10 @@ export default function Panel({ open, setOpen, transaction }: PanelProps) {
                             Amount
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                            {Dinero({
-                              amount: 20 * 100,
-                              currency: 'USD',
-                            }).toFormat('$0,0.00')}
+                            {formatCurrency(
+                              transaction.amount,
+                              transaction.currency
+                            )}
                           </dd>
                         </div>
                         <div>

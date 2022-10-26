@@ -6,8 +6,13 @@ import Panel from '../Panel'
 import LoadingTable from './LoadingTable'
 import DataTable from './DataTable'
 import type { Transaction, User, TransactionWithUserInfo } from '@/constants'
+import { LIMIT as limit } from '@/constants'
 
-export default function TransactionsTable({ filterText, setFilterText, status }: any) {
+export default function TransactionsTable({
+  filterText,
+  setFilterText,
+  status,
+}: any) {
   const [loading, setLoading] = React.useState<boolean>(false)
   const [transactions, setTransactions] = React.useState<Transaction[]>([])
   const [filteredTransactions, setFilteredTransactions] = React.useState<
@@ -19,8 +24,6 @@ export default function TransactionsTable({ filterText, setFilterText, status }:
     {} as TransactionWithUserInfo
   )
   const [offset, setOffset] = React.useState<number>(0)
-
-  const limit = 10
 
   let users: User[] = []
   async function getUsers() {
@@ -88,7 +91,6 @@ export default function TransactionsTable({ filterText, setFilterText, status }:
   React.useEffect(() => {
     filterTransactions()
   }, [filterText])
-
 
   return (
     <div className="flex flex-col">
